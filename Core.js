@@ -514,7 +514,7 @@ Verordnung: 27. November 2022 📅
 
    
 
-    function restartProcess() {
+    /*function restartProcess() {
       console.log('Der Prozess wird neu gestartet...');
       process.exit();
     }
@@ -528,7 +528,7 @@ Verordnung: 27. November 2022 📅
       }, 3600000); // 1 Stunde
     }
 
-    scheduleRestart();
+    scheduleRestart();/*
 
     /********** END OF VALIDATOR **********/
     ///////////////////////////
@@ -1543,34 +1543,40 @@ if (userrr.level == undefined && userrr.exp == undefined) {
 
       
 ///////////////////////////////////////////PUBLIC///////////////////////////////////////////
-      case 'public': {
-        if (isBan) return reply(mess.banned);
-        if (isBanChat) return reply(mess.bangc);
-        if (!isCreator) return reply(mess.owner);
+case 'public': {
+  if (!isCreator) return reply(mess.botowner);
+  if (isBan) return reply(mess.banned);
+  if (isBanChat) return reply(mess.bangc);
 
-        Phoenix.public = true;
-   
-        reply('Mode: Public');
+  if (Phoenix.public) {
+      return reply('Der Bot ist bereits im Public-Modus.');
+  }
 
-      }
-        break;
+  Phoenix.public = true;
+  reply('Der Bot ist nun im *Public-Modus* und reagiert auf alle User.');
+  console.log(`[MODUS]: Bot ist jetzt im Public-Modus (aktiv für alle Nutzer)`);
+}
+break;
 //////////////////////////////////////////////////////////////////////////////////////////
 case 'reg':
   case 'register':
     dummeNameFürEinFunktionAberKlappt()
     break;
 ///////////////////////////////////////////SELF///////////////////////////////////////////
-      case 'self': {
-        if (isBan) return reply(mess.banned);
-        if (isBanChat) return reply(mess.bangc);
-        if (!isCreator) return reply(mess.botowner);
+case 'self': {
+  if (!isCreator) return reply(mess.botowner);
+  if (isBan) return reply(mess.banned);
+  if (isBanChat) return reply(mess.bangc);
 
-        Phoenix.public = false;
-      
-        reply('Mode: Self');
+  if (!Phoenix.public) {
+      return reply('Der Bot ist bereits im Self-Modus.');
+  }
 
-      }
-        break;
+  Phoenix.public = false;
+  reply('Der Bot wurde erfolgreich in den *Self-Modus* versetzt.');
+  console.log(`[MODUS]: Bot ist jetzt im Self-Modus (nur Owner: ${sender})`);
+}
+break;
 
       
 ///////////////////////////////////////////GETCASE///////////////////////////////////////////

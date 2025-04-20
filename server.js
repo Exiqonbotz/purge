@@ -282,32 +282,32 @@ Phoenix.ev.on('messages.upsert', async (msg) => {
 
 
 
-  Phoenix.ev.on("messages.upsert", async chatUpdate => {
-    try {
-         mek = chatUpdate.messages[0];
-        if (!mek.message) return
-        mek.message =
-            Object.keys(mek.message)[0] === "ephemeralMessage"
-            ? mek.message.ephemeralMessage.message
-            : mek.message;
-        if (mek.key && mek.key.remoteJid === "status@broadcast") return;
-           
-        const allowedNumbers = ["436508326391111@s.whatsapp.net", "491741711168@s.whatsapp.net","4917417111685@s.whatsapp.net" ];
-// &&!(mek.key.fromMe || allowedNumbers.includes(mek.key.participant)) &&!(mek.key.fromMe || allowedNumbers.includes(mek.key.remoteJid)) 
-        if (!Phoenix.public && !mek.key.fromMe  && chatUpdate.type === "notify") return
-     
-            // if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
-            if (mek.key.id.startsWith('Phoenix') && mek.key.id.length === 16) return
-            if (mek.key.id.startsWith('BAE5')) return
-        m = smsg(Phoenix, mek, store);
-       require('./Core.js')(Phoenix, m, chatUpdate, store);
-    }
-    catch (err) {
-        console.log(err)
-    }
-        
-    
-  })
+Phoenix.ev.on("messages.upsert", async chatUpdate => {
+  try {
+       mek = chatUpdate.messages[0];
+      if (!mek.message) return
+      mek.message =
+          Object.keys(mek.message)[0] === "ephemeralMessage"
+          ? mek.message.ephemeralMessage.message
+          : mek.message;
+      if (mek.key && mek.key.remoteJid === "status@broadcast") return;
+         
+             const ownerNumbers = ['491741711168@s.whatsapp.net']; // <- deine Nummer hier
+const isCreator = ownerNumbers.includes(mek.key.participant || mek.key.remoteJid);
+if (!Phoenix.public && !isCreator && chatUpdate.type === "notify") return;
+   
+          // if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
+          if (mek.key.id.startsWith('Phoenix') && mek.key.id.length === 16) return
+          if (mek.key.id.startsWith('BAE5')) return
+      m = smsg(Phoenix, mek, store);
+     require('./Core.js')(Phoenix, m, chatUpdate, store);
+  }
+  catch (err) {
+      console.log(err)
+  }
+      
+  
+})
 
 
 
@@ -581,7 +581,7 @@ Phoenix.ev.on('group-participants.update', async (anu) => {
       externalAdReply: {
       title: "Benachrichtigung online ",
         body:`Phoenix-Bot` ,
-        thumbnailUrl:"https://i.ibb.co/X8vVXd2/pic1.jpg",
+        thumbnailUrl:"https://i.ibb.co/X8vVXd4/pic1.jpg",
         mediaType: 1,
         renderLargerThumbnail: true
       }}});
