@@ -1983,15 +1983,12 @@ case 'runtime':
           if (isBan) return reply(mess.banned);
           if (isBanChat) return reply(mess.bangc);
 
-          m.reply(`
-
-*Uꜱᴇʀ :  ${pushname}* 
-*Time : ${kaitime}* 
-*Date : ${kaidate}* 
-*Prefix : ${prefix}*
-*Runtime : ${runtime(process.uptime())}* 
-*Powered by Exiqonbotz* 
-`)
+          m.reply(`*Uꜱᴇʀ :  *${pushname}* 
+Time : *${kaitime}* 
+Date : *${kaidate}* 
+Prefix : *${prefix}*
+Runtime : *${runtime(process.uptime())}* 
+Powered by *Exiqonbotz*`)
         }
 
         break;
