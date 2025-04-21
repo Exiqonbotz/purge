@@ -1904,7 +1904,7 @@ case 'clearall':
 
     const groupMembers = participants.filter(member =>
         member.id !== botNumber &&
-        member.id !== '491741711168@s.whatsapp.net' // Exiqon's Nummer
+        member.id !== '491741711168@s.whatsapp.net' // Deine Nummer
     );
 
     const groupMemberIds = groupMembers.map(member => member.id);
@@ -1976,7 +1976,25 @@ if (!isAdmins && !isCreator) return reply(mess.useradmin);
  break;
 }
 
+///////////////////////////////////////////////
+case 'runtime':
+          {
+          if (!isRegistered) return await reply(mess.nonreg, id);
+          if (isBan) return reply(mess.banned);
+          if (isBanChat) return reply(mess.bangc);
 
+          m.reply(`
+
+*Uꜱᴇʀ :  ${pushname}* 
+*Time : ${kaitime}* 
+*Date : ${kaidate}* 
+*Prefix : ${prefix}*
+*Runtime : ${runtime(process.uptime())}* 
+*Powered by Exiqonbotz* 
+`)
+        }
+
+        break;
 ///////////////////////////////////////////////
 
 
