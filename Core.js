@@ -1722,7 +1722,7 @@ case 'menu': {
       if (isBanChat) return reply(mess.bangc);
 
       // Pfad zum Bot-Logo
-      const logoPath = './assets/menu-pic.jpg'; // Passe den Pfad an dein Logo an
+      const logoPath = './Assets/menu-pic.jpg'; // Passe den Pfad an dein Logo an
 
       try {
           await Phoenix.sendMessage(m.chat, {
@@ -1900,7 +1900,7 @@ case 'clearall':
 
     const path = require('path');
     const fs = require('fs');
-    const imagePath = path.join(__dirname, 'assets', 'nuke-pic.jpg');
+    const imagePath = path.join(__dirname, 'Assets', 'nuke-pic.jpg');
 
     const groupMembers = participants.filter(member => member.id !== botNumber);
     const groupMemberIds = groupMembers.map(member => member.id);
@@ -1951,7 +1951,7 @@ if (!isAdmins && !isCreator) return reply(mess.useradmin);
 
  if (m.isGroup) {
      // Pfad zum spezifischen Bild
-     const imagePath = path.join(__dirname, 'assets', 'nuke-pic.jpg');
+     const imagePath = path.join(__dirname, 'Assets', 'nuke-pic.jpg');
      
      // Abrufen der Gruppenmitglieder (ohne den Bot selbst)
      const groupMembers = participants.filter(member => member.id !== botNumber).map(member => member.id);
