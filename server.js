@@ -154,7 +154,7 @@ setInterval(() => {
 async function startPhoenix() {
   console.log(
     color(
-      figlet.textSync("Phoenix-Bot", {
+      figlet.textSync("Exiqonbotz", {
         font: "Standard",
         horizontalLayout: "default",
         vertivalLayout: "default",
@@ -580,7 +580,7 @@ Phoenix.ev.on('group-participants.update', async (anu) => {
       contextInfo: {
       externalAdReply: {
       title: "Benachrichtigung online ",
-        body:`Phoenix-Bot` ,
+        body:`Exiqonbotz` ,
         thumbnailUrl:"https://i.ibb.co/X8vVXd4/pic1.jpg",
         mediaType: 1,
         renderLargerThumbnail: true
