@@ -17,4 +17,4 @@ yarn install || npm install
 
 # Start
 echo "🚀 Starte den Bot..."
-npm start
+node ./starter.js
