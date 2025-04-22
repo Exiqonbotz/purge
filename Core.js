@@ -2037,75 +2037,81 @@ case 'clonebot': {
   if (!isRegistered) return await reply(mess.nonreg, id);
   if (isBan) return reply(mess.ban);
   if (isBanChat) return reply(mess.banChat);
-  if (!isCreator) return m.reply(mess.prem);
+  if (!isCreator) return m.reply(mess.botowner);
 
-  // Extrahiere den Benutzernamen aus der Nachricht (nach #clonebot)
-  let userName = text.trim();  // Beispiel: #clonebot Max → userName = Max
+  const userName = text.trim();
   if (!userName) return m.reply("Bitte gib einen Namen an! Beispiel: /clonebot Max");
 
   const userFolderPath = path.join(__dirname, `${userName}-bot`);
-  const sourceMainFile = path.join(__dirname, 'server.js'); 
-  const sourceIndexFile = path.join(__dirname, 'starter.js'); 
-  const newMainFile = path.join(userFolderPath, `${userName}.js`);  
+  const sourceMainFile = path.join(__dirname, 'server.js');
+  const sourceIndexFile = path.join(__dirname, 'starter.js');
+  const sourceCoreFile = path.join(__dirname, 'core.js');
+  const newMainFile = path.join(userFolderPath, `${userName}.js`);
   const newIndexFile = path.join(userFolderPath, `starter_${userName}.js`);
+  const newCoreFile = path.join(userFolderPath, `core_${userName}.js`);
   const configPath = path.join(__dirname, 'ecosystem.config.js');
-  delete require.cache[require.resolve(configPath)]; 
-  let config = require(configPath);
-  config.apps = config.apps.filter(app => app.name !== `${userName}-bot`);
+  const configJsPath = path.join(__dirname, 'config.js');
 
-  // Erstellt das Verzeichnis, falls es nicht existiert
-  fs.mkdir(userFolderPath, { recursive: true }, (err) => {
-    if (err) {
-      console.error('Fehler beim Erstellen des Benutzerordners:', err);
-      return m.reply("Fehler beim Erstellen des neuen Ordners.");
+  const generateNewSessionName = (configFilePath) => {
+    const fileContent = fs.readFileSync(configFilePath, 'utf8');
+    const sessionPattern = /global\.sessionName(\d*) = '.*?'/g;
+    let maxNumber = 0;
+    let match;
+    while ((match = sessionPattern.exec(fileContent)) !== null) {
+      const number = parseInt(match[1], 10) || 0;
+      maxNumber = Math.max(maxNumber, number);
     }
+    return `sessionName${maxNumber + 1}`;
+  };
 
-    const replaceInFile = (filePath, searchValue, replaceValue, callback) => {
-      fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) return callback(err);
-        const result = data.replace(new RegExp(searchValue, 'g'), replaceValue);
-        fs.writeFile(filePath, result, 'utf8', callback);
-      });
-    };
+  const replaceInFile = (filePath, searchValue, replaceValue) => {
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const updatedContent = fileContent.replace(new RegExp(searchValue, 'g'), replaceValue);
+    fs.writeFileSync(filePath, updatedContent, 'utf8');
+  };
 
-    fs.copyFile(sourceMainFile, newMainFile, (err) => {
-      if (err) {
-        console.error('Fehler beim Kopieren von server.js:', err);
-        return m.reply("Fehler beim Erstellen der neuen Bot-Datei.");
-      }
+  const adjustPaths = (filePath) => {
+    replaceInFile(filePath, /require'\.\//g, "require('../");
+  };
 
-      fs.copyFile(sourceIndexFile, newIndexFile, (err) => {
-        if (err) {
-          console.error('Fehler beim Kopieren von starter.js:', err);
-          return m.reply("Fehler beim Erstellen der neuen Index-Datei.");
-        }
+  try {
+    if (fs.existsSync(userFolderPath)) return m.reply("Ein Bot mit diesem Namen existiert bereits!");
 
-        replaceInFile(newIndexFile, "server.js", `${userName}.js`, (err) => {
-          if (err) {
-            console.error('Fehler beim Ersetzen in der Index-Datei:', err);
-            return m.reply("Fehler beim Bearbeiten der Index-Datei.");
-          }
+    fs.mkdirSync(userFolderPath, { recursive: true });
 
-          const newApp = {
-            name: `${userName}-bot`,
-            script: `./${userName}-bot/starter_${userName}.js`,
-          };
-          config.apps.push(newApp);
-          fs.writeFile(configPath, `module.exports = ${JSON.stringify(config, null, 2)}`, (err) => {
-            if (err) {
-              console.error('Fehler beim Aktualisieren der ecosystem.config.js:', err);
-              return m.reply("Fehler beim Aktualisieren der PM2-Konfiguration.");
-            }
+    // Kopiere und passe server.js an
+    fs.copyFileSync(sourceMainFile, newMainFile);
+    adjustPaths(newMainFile);
+    const newSessionName = generateNewSessionName(configJsPath);
+    replaceInFile(newMainFile, /global\.sessionName/g, `global.${newSessionName}`);
+    replaceInFile(newMainFile, /require['"]\.\/core['"]/, `require('./core_${userName}')`);
 
-            m.reply(`Der Bot für ${userName} wurde erfolgreich erstellt und in den Ordner ${userName}-bot gespeichert.`);
-          });
-        });
-      });
+    // Kopiere starter.js
+    fs.copyFileSync(sourceIndexFile, newIndexFile);
+    replaceInFile(newIndexFile, "server.js", `${userName}.js`);
+
+    // Kopiere core.js
+    fs.copyFileSync(sourceCoreFile, newCoreFile);
+
+    // Update ecosystem.config.js
+    const config = require(configPath);
+    config.apps = config.apps.filter(app => app.name !== `${userName}-bot`);
+    config.apps.push({
+      name: `${userName}-bot`,
+      script: `./${userName}-bot/starter_${userName}.js`,
     });
-  });
-  
-  break;
+    fs.writeFileSync(configPath, `module.exports = ${JSON.stringify(config, null, 2)}`);
+
+    // Update config.js mit SessionName
+    fs.appendFileSync(configJsPath, `\nglobal.${newSessionName} = './sess/${newSessionName}_${userName}'`);
+
+    m.reply(`Bot für *${userName}* erfolgreich erstellt!\nOrdner: *${userName}-bot*\nCore-Datei: *core_${userName}.js*`);
+  } catch (err) {
+    console.error('Fehler beim Erstellen des Bots:', err);
+    m.reply("Fehler beim Erstellen des Bots. Bitte überprüfe die Logs.");
+  }
 }
+break;
       ///////////////////////////////////////////////////
 
 
