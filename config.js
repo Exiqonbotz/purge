@@ -217,3 +217,4 @@ fs.watchFile(file, () => {
   delete require.cache[file]
   require(file)
 })
+global.sessionName4 = './sess/sessionName4_Hadex'
