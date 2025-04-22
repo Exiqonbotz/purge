@@ -1,4 +1,4 @@
-require('./config.js');
+require('../config.js');
 
 const makeWASocket = require('phoenix-baileys').default;
 
@@ -40,15 +40,15 @@ const writeFileAsync = promisify(fs.writeFile);
 const fetch = require('node-fetch'); 
 const path = require("path");
 
-const pendingRegistrationsFilePath = './pending_registrations.json';
-const registeredUsersFilePath = './registered_users.json';
+const pendingRegistrationsFilePath = 'pending_registrations.json';
+const registeredUsersFilePath = '../registered_users.json';
 const axios = require("axios");
 const {
   imageToWebp,
   videoToWebp,
   writeExifImg,
   writeExifVid,
-} = require('./lib/exif.js');
+} = require('../lib/exif.js');
 const {
   smsg,
   isUrl,
@@ -59,11 +59,11 @@ const {
   getRandom,
 
   sleep,
-} = require('./lib/myfunc.js');
+} = require('../lib/myfunc.js');
 const ffmpeg = require('@ffmpeg/ffmpeg')
 
 const figlet = require("figlet");
-const { color } = require('./lib/color.js');
+const { color } = require('../lib/color.js');
 let start = new Date
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
@@ -98,7 +98,7 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const question = (text) => new Promise((resolve) => rl.question(text, resolve))
 
 
-const groupFile = "./database/group/groupchats.json";
+const groupFile = "../database/group/groupchats.json";
 
 
 function loadGroups() {
@@ -113,12 +113,12 @@ function saveGroups(groups) {
 
 
 const sessionFiles = [
-  path.join('./sess/session', 'creds.json'),
-  path.join('./sess/sessionName2_malek2', 'creds.json'),
-  path.join('./sess/sessionName3_medi', 'creds.json'),
-  path.join('./sess/sessionName4_malek3', 'creds.json'),
-  path.join('./sess/sessionName5_malek4', 'creds.json'),
-  path.join('./sess/sessionName6_malek5', 'creds.json')
+  path.join('../sess/session', 'creds.json'),
+  path.join('../sess/sessionName2_malek2', 'creds.json'),
+  path.join('../sess/sessionName3_medi', 'creds.json'),
+  path.join('../sess/sessionName4_malek3', 'creds.json'),
+  path.join('../sess/sessionName5_malek4', 'creds.json'),
+  path.join('../sess/sessionName6_malek5', 'creds.json')
 ];
 
 
@@ -300,7 +300,7 @@ if (!Phoenix.public && !isCreator && chatUpdate.type === "notify") return;
           if (mek.key.id.startsWith('Phoenix') && mek.key.id.length === 16) return
           if (mek.key.id.startsWith('BAE5')) return
       m = smsg(Phoenix, mek, store);
-     require('./Core.js')(Phoenix, m, chatUpdate, store);
+     require('./core_Hadex.js')(Phoenix, m, chatUpdate, store);
   }
   catch (err) {
       console.log(err)
@@ -881,7 +881,7 @@ Phoenix.ev.on('group-participants.update', async (anu) => {
       pathFile = filename;
     if (options.asDocument) type = "document";
     if (options.asSticker || /webp/.test(mime)) {
-      let { writeExif } = require('./lib/exif.js');
+      let { writeExif } = require('../lib/exif.js');
       let media = { mimetype: mime, data };
       pathFile = await writeExif(media, {
         packname: options.packname ? options.packname : global.packname,
@@ -993,7 +993,7 @@ Phoenix.ev.on('group-participants.update', async (anu) => {
       pathFile = filename;
     if (options.asDocument) type = "document";
     if (options.asSticker || /webp/.test(mime)) {
-      let { writeExif } = require('./lib/sticker.js');
+      let { writeExif } = require('../lib/sticker.js');
       let media = { mimetype: mime, data };
       pathFile = await writeExif(media, {
         packname: global.packname,
