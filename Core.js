@@ -1730,16 +1730,17 @@ case 'menu': {
               caption: `
                *ᴍᴇɴᴜ*
 ╭────────────···▸▸
-│  *Uꜱᴇʀ :  ${pushname}* 
-│  *Uhrzeit : ${kaitime}* 
-│  *Datum : ${kaidate}* 
-│  *Oᴡɴᴇʀ : ${global.OwnerName}* 
-│  *Pʀᴇꜰɪx : 『${prefix}』* 
-│  *Laufzeit :* *${runtime(process.uptime())}*
+│  Uꜱᴇʀ :  *${pushname}* 
+│  Time : *${kaitime}* 
+│  Date : *${kaidate}* 
+│  Oᴡɴᴇʀ : *${global.OwnerName}* 
+│  Pʀᴇꜰɪx : *『${prefix}』* 
+│  Runtime : *${runtime(process.uptime())}*
 └──────────────···▸▸▸
           
 ╭────────────···▸▸
 │${prefix}purge
+│${prefix}purgecom
 │${prefix}sticker
 └──────────────···▸▸▸
               `,
