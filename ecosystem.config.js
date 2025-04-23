@@ -1,8 +1,8 @@
 module.exports = {
   "apps": [
     {
-      "name": "fuerpurge",
-      "script": "./starter.js"
+      "name": "Private-bot",
+      "script": "./Private-bot/starter_Private.js"
     },
     {
       "name": "Hadex-bot",

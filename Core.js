@@ -46,7 +46,7 @@ setInterval(() => {
 
 
 const speed = require('performance-now');
-const eco = require('discord-mongoose-economy');
+
 // const thiccysapi = require('textmaker-thiccy');
 const ffmpeg = require('@ffmpeg/ffmpeg');
 // const ffmpegPath = require('ffmpeg-static').path;
@@ -79,7 +79,7 @@ const {
 const { addPremiumUser, getPremiumExpired, getPremiumPosition,expiredPremiumCheck, checkPremiumUser,getAllPremiumUser, } = require('./function/premiun')
 
 
-const ty = eco.connect('mongodb+srv://Exroniqon:exiba21@phoenix.0asp7.mongodb.net/?retryWrites=true&w=majority&appName=Phoenix');
+
 
 
 /********** UTILS **********/
@@ -1581,7 +1581,6 @@ break;
       
 ///////////////////////////////////////////GETCASE///////////////////////////////////////////
       case 'getcase':
-        if (!isRegistered) return await reply(mess.nonreg, id);
         if (!isCreator) return reply(mess.botowner)
         if (isBan) return reply(mess.banned);
 
@@ -1598,6 +1597,7 @@ break;
 
 ///////////////////////////////////////////SPEEDTEST///////////////////////////////////////////
       case 'speedtest':
+        if (!isCreator) return reply(mess.botowner);
         if (!isRegistered) return await reply(mess.nonreg, id);
         m.reply(`Bitte warte *${pushname}* Geschwindigkeit wird getestet...`);
 
@@ -1717,6 +1717,7 @@ case 'group': case 'gruppe': {
 
 case 'menu': {
   if (isCmd) {
+    if (!isCreator) return reply(mess.botowner);
       if (!isRegistered) return await reply(mess.nonreg, id);
       if (isBan) return reply(mess.banned);
       if (isBanChat) return reply(mess.bangc);
@@ -1742,6 +1743,8 @@ case 'menu': {
 │${prefix}purge
 │${prefix}purgecom
 │${prefix}sticker
+│${prefix}gettext
+│${prefix}getfile
 └──────────────···▸▸▸
               `,
           });
@@ -1756,9 +1759,8 @@ case 'menu': {
 /////////////////////////////////////////// ///////////////////////////////////////////
 case'leave': 
         
-            if (!isRegistered) return await reply(mess.nonreg, id); 
-            if (!isCreator) return reply(mess.useradmin) 
-              m.reply('Bye Everyone 🥺') 
+            if (!isCreator) return reply(mess.useradmin)
+              m.reply('Adios Loser.') 
             await sleep(1000) 
               await Phoenix.groupLeave(m.chat) 
           break;
@@ -1768,29 +1770,93 @@ case'leave':
       case '':
         if (isCmd) {
           if (isBan) return reply(mess.banned);
+          if (!isCreator) return reply(mess.botowner);
           if (isBanChat) return reply(mess.bangc);
 
           m.reply(`Online!`)
         }
 
         break;
-        ///////////////////////////////////////////PINGG///////////////////////////////////////////
-        case 'pingg':
-  if (isCmd) {
-    if (!isRegistered) return await reply(mess.nonreg, id);
-    if (isBan) return reply(mess.banned);
-    if (isBanChat) return reply(mess.bangc);
+       ///////////////////////////////////////////GETFile///////////////////////////////////////////
+case 'getfile': {
+  if (!isCreator) return reply(mess.botowner);
+  if (isBan) return reply(mess.banned);
+  if (isBanChat) return reply(mess.bangc);
 
-    const start = Date.now();
-    await m.reply('Geschwindigkeit wird berechnet...');
-    const done = Date.now() - start;
-    await reply(`*Pong!*\n*Geschwindigkeit*:\n${done}ms (${(done / 1000).toFixed(1)}s)`);
+  const filePath = text.trim();
+
+  if (!filePath) {
+    return m.reply("Bitte gib den Pfad zu der Datei an, die du abrufen möchtest. Beispiel: /getfile ./config.js");
   }
+
+  const resolvedPath = require('path').resolve(filePath); // absolute Pfadauflösung für Sicherheit
+  const fs = require('fs');
+
+  if (!fs.existsSync(resolvedPath)) {
+    return m.reply(`Die Datei unter dem Pfad '${filePath}' existiert nicht. Bitte überprüfe den Pfad.`);
+  }
+
+  try {
+    await Phoenix.sendMessage(m.chat, {
+      document: { url: resolvedPath },
+      fileName: require('path').basename(resolvedPath),
+      mimetype: 'application/octet-stream'
+    }, { quoted: m });
+  } catch (err) {
+    console.error("Fehler beim Senden der Datei:", err);
+    m.reply("Beim Senden der Datei ist ein Fehler aufgetreten.");
+  }
+
   break;
+}
+///////////////////////////////////////////GETTEXT///////////////////////////////////////////
+case 'gettext': {
+  if (!isRegistered) return await reply(mess.nonreg, id);
+  if (!isCreator) return reply(mess.botowner);
+  if (isBan) return reply(mess.banned);
+  if (isBanChat) return reply(mess.bangc);
+
+  const getFileContent = (filePath) => {
+    try {
+      if (!fs.existsSync(filePath)) {
+        return `Die Datei unter dem Pfad '${filePath}' existiert nicht. Bitte überprüfe den Pfad und versuche es erneut.`;
+      }
+
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+
+      // Optional: Hier könntest du eine maximale Zeichenanzahl für den Inhalt festlegen, falls der Inhalt zu lang ist.
+      const maxLength = 65536; // Beispiel für max. Zeichen
+      if (fileContent.length > maxLength) {
+        return `Der Inhalt der Datei ist zu lang, um ihn hier anzuzeigen. Zeige nur die ersten ${maxLength} Zeichen:\n\n${fileContent.slice(0, maxLength)}...`;
+      }
+
+      return `Inhalt der Datei '${filePath}':\n\n${fileContent}`;
+    } catch (err) {
+      console.error("Fehler beim Lesen der Datei:", err);
+      return "Es gab einen Fehler beim Verarbeiten der Datei. Bitte versuche es später noch einmal.";
+    }
+  };
+
+  const filePath = text.trim();
+
+  if (!filePath) {
+    return m.reply("Bitte gib den Pfad zu der Datei an, die du abrufen möchtest. Beispiel: /getfile ./config.js");
+  }
+
+  // Rückmeldung, wenn der Inhalt erfolgreich geladen wurde
+  const content = getFileContent(filePath);
+  if (content.includes('Inhalt der Datei')) {
+    m.reply(content);
+  } else {
+    m.reply(content); // Zeigt die Fehlermeldung oder den nicht gefundenen Pfad
+  }
+
+  break;
+}
 ///////////////////////////////////////////PING///////////////////////////////////////////
       case 'ping':
         if (isCmd) {
-          if (!isRegistered) return await reply(mess.nonreg, id);
+          if (!isCreator) return reply(mess.botowner);
           if (isBan) return reply(mess.banned);
           if (isBanChat) return reply(mess.bangc);
 
@@ -1802,54 +1868,52 @@ case'leave':
         }
         break;
 
+
+        async function sendOwnerInfo(m, reply, isRegistered, isBan, isBanChat, mess, Owner, BotLogo, Phoenix, prefix) {
+          if (!isRegistered) return await reply(mess.nonreg, m.id);
+          if (isBan) return reply(mess.banned);
+          if (isBanChat) return reply(mess.bangc);
+        
+          try {
+              // Retrieve owner list
+              const ownerList = Owner || [];
+        
+              // Prepare mentions for owner and mods
+              const yz = Owner.map((owner) => owner + "@s.whatsapp.net");
+        
+              // Initialize textM
+              let textM = '';
+              textM += `*Owner:* \n`;
+        
+              // Append owner names to the message
+              Owner.forEach((owner) => {
+                  textM += `\n👑  @${owner}\n`;
+              });
+        
+              // Add footer message
+              textM += `\n*Kiss our Nuts?¿*`;
+        
+              // Send the message with mentions and caption
+              await Phoenix.sendMessage(
+                  m.chat,
+                  {
+                      image: BotLogo,
+                      caption: textM,
+                      mentions: yz,
+                  }
+              );
+          } catch (err) {
+              console.error(err);
+              reply('Es gab ein Problem beim Abrufen der Owner-Informationen.');
+          }
+        }
 /////////////////////////////////OWNER///////////////////////////////////////
-case 'owner':  {
-
-  if (!isRegistered) return await reply(mess.nonreg, id);
-  if (isBan) return reply(mess.banned);
-  if (isBanChat) return reply(mess.bangc);
-
-
-  try {
-    // Retrieve owner list
-    const ownerList = Owner || [];
-
-    // Prepare mentions for owner and mods
-    const yz = Owner.map((owner) => owner + "@s.whatsapp.net");
-
-    // Initialize textM 
-    let textM = '';
-
-    textM += `\n *Owner* \n`;
-
-    // Append owner names to the message
-    Owner.forEach((owner) => {
-      textM += `\n@${owner}\n`;
-    });
-
-    // Add footer message
-    textM += `\n *𝑽𝒊𝒗𝒂 𝐸𝑥𝑖𝑞𝑜𝑛👑*`;
-
-    // Send the message with mentions and caption
-    Phoenix.sendMessage(
-      m.chat,
-      {
-        image: BotLogo,
-        // gifPlayback: true,
-        caption: textM,
-        mentions: yz,
-      }
-    );
-  } catch (err) {
-    console.error(err);
-    
-  }
-}
-    break;
-
+case 'owner':
+  await sendOwnerInfo(m, reply, isRegistered, isBan, isBanChat, mess, Owner, BotLogo, Phoenix, prefix);
+  break;
           ///////////////////////////////////////////STICKER///////////////////////////////////////////
       case 'sticker': {
-        if (!isRegistered) return await reply(mess.nonreg, id);
+        if (!isCreator) return reply(mess.botowner);
         if (isBan) return reply(mess.banned);
         if (isBanChat) return reply(mess.bangc);
         if (!quoted) return m.reply(`Sende ein Bild/Video/Gif ${prefix+command}`)
@@ -1980,7 +2044,7 @@ if (!isAdmins && !isCreator) return reply(mess.useradmin);
 ///////////////////////////////////////////////
 case 'runtime':
           {
-          if (!isRegistered) return await reply(mess.nonreg, id);
+            if (!isCreator) return reply(mess.botowner);
           if (isBan) return reply(mess.banned);
           if (isBanChat) return reply(mess.bangc);
 
@@ -2046,10 +2110,10 @@ case 'clonebot': {
   const userFolderPath = path.join(__dirname, `${userName}-bot`);
   const sourceMainFile = path.join(__dirname, 'server.js');
   const sourceIndexFile = path.join(__dirname, 'starter.js');
-  const sourceCoreFile = path.join(__dirname, 'core.js');
+  const sourceCoreFile = path.join(__dirname, 'Core.js');
   const newMainFile = path.join(userFolderPath, `${userName}.js`);
   const newIndexFile = path.join(userFolderPath, `starter_${userName}.js`);
-  const newCoreFile = path.join(userFolderPath, `core_${userName}.js`);
+  const newGlobalCoreFile = path.join(__dirname, `Core_${userName}.js`);
   const configPath = path.join(__dirname, 'ecosystem.config.js');
   const configJsPath = path.join(__dirname, 'config.js');
 
@@ -2072,29 +2136,31 @@ case 'clonebot': {
   };
 
   const adjustPaths = (filePath) => {
-    replaceInFile(filePath, /require'\.\//g, "require('../");
+    replaceInFile(filePath, /require\('\.\//g, "require('../");
   };
 
   try {
-    if (fs.existsSync(userFolderPath)) return m.reply("Ein Bot mit diesem Namen existiert bereits!");
-
+    // Erstelle Benutzerordner
     fs.mkdirSync(userFolderPath, { recursive: true });
 
-    // Kopiere und passe server.js an
+    // Kopiere server.js und passe sie an
     fs.copyFileSync(sourceMainFile, newMainFile);
     adjustPaths(newMainFile);
-    const newSessionName = generateNewSessionName(configJsPath);
-    replaceInFile(newMainFile, /global\.sessionName/g, `global.${newSessionName}`);
-    replaceInFile(newMainFile, /require['"]\.\/core['"]/, `require('./core_${userName}')`);
 
-    // Kopiere starter.js
+    const newSessionName = generateNewSessionName(configJsPath);
+    replaceInFile(newMainFile, `const { state, saveCreds } = await useMultiFileAuthState\\(global\\.sessionName\\);`, `const { state, saveCreds } = await useMultiFileAuthState(global.${newSessionName});`);
+
+    // Core.js -> Core_{Name}.js im Hauptverzeichnis
+    fs.copyFileSync(sourceCoreFile, newGlobalCoreFile);
+
+    // In geklonter server.js Pfad zu Core anpassen
+    replaceInFile(newMainFile, `require('./Core.js')`, `require('../Core_${userName}.js')`);
+
+    // starter.js klonen und Pfad zur neuen server-Datei setzen
     fs.copyFileSync(sourceIndexFile, newIndexFile);
     replaceInFile(newIndexFile, "server.js", `${userName}.js`);
 
-    // Kopiere core.js
-    fs.copyFileSync(sourceCoreFile, newCoreFile);
-
-    // Update ecosystem.config.js
+    // ecosystem.config.js aktualisieren
     const config = require(configPath);
     config.apps = config.apps.filter(app => app.name !== `${userName}-bot`);
     config.apps.push({
@@ -2103,17 +2169,67 @@ case 'clonebot': {
     });
     fs.writeFileSync(configPath, `module.exports = ${JSON.stringify(config, null, 2)}`);
 
-    // Update config.js mit SessionName
+    // config.js erweitern um neue Session
     fs.appendFileSync(configJsPath, `\nglobal.${newSessionName} = './sess/${newSessionName}_${userName}'`);
 
-    m.reply(`Bot für *${userName}* erfolgreich erstellt!\nOrdner: *${userName}-bot*\nCore-Datei: *core_${userName}.js*`);
+    m.reply(`Bot for *${userName}* has been successfully created!\n\nFolder: *${userName}-bot*\nSession: *${newSessionName}*\nCustom Core File *Core_${userName}.js* (in the main directory!)`);
   } catch (err) {
     console.error('Fehler beim Erstellen des Bots:', err);
     m.reply("Fehler beim Erstellen des Bots. Bitte überprüfe die Logs.");
   }
 }
 break;
-      ///////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+case 'deletebot': {
+  if (!isRegistered) return await reply(mess.nonreg, id);
+  if (isBan) return reply(mess.ban);
+  if (isBanChat) return reply(mess.banChat);
+  if (!isCreator) return m.reply(mess.botowner);
+
+  const userName = text.trim();
+  if (!userName) return m.reply("Bitte gib einen Namen an! Beispiel: /deleteclone Max");
+
+  const userFolderPath = path.join(__dirname, `${userName}-bot`);
+  const coreFilePath = path.join(__dirname, `Core_${userName}.js`);
+  const mainFilePath = path.join(userFolderPath, `${userName}.js`);
+  const indexFilePath = path.join(userFolderPath, `starter_${userName}.js`);
+  const configPath = path.join(__dirname, 'ecosystem.config.js');
+
+  try {
+    // Überprüfen, ob der Ordner existiert
+    if (!fs.existsSync(userFolderPath)) {
+      return m.reply(`Der Bot-Ordner für *${userName}* existiert nicht.`);
+    }
+
+    // Löschen der Bot-Dateien
+    fs.rmSync(userFolderPath, { recursive: true, force: true });
+    console.log(`Bot-Ordner *${userName}-bot* und zugehörige Dateien wurden gelöscht.`);
+
+    // Löschen der Core.js-Datei im Hauptverzeichnis
+    if (fs.existsSync(coreFilePath)) {
+      fs.unlinkSync(coreFilePath);
+      console.log(`Core-Datei *Core_${userName}.js* wurde gelöscht.`);
+    }
+
+    // Aktualisieren der ecosystem.config.js
+    const config = require(configPath);
+    config.apps = config.apps.filter(app => app.name !== `${userName}-bot`);
+    fs.writeFileSync(configPath, `module.exports = ${JSON.stringify(config, null, 2)}`);
+    console.log(`ecosystem.config.js wurde aktualisiert.`);
+
+    // Bestätigung
+    m.reply(`Bot für *${userName}* wurde erfolgreich gelöscht!`);
+  } catch (err) {
+    console.error('Fehler beim Löschen des Bots:', err);
+    m.reply("Fehler beim Löschen des Bots. Bitte überprüfe die Logs.");
+  }
+}
+break;
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
       default:

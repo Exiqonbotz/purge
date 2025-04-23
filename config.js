@@ -22,25 +22,23 @@ global.prefix = ["#"];                                    //Default prefix here.
 prefix = ["#"];  
 
 //
-global.Owner = ["491741711168","436508326391111"];  
-global.Ownerblock = ["491741711168","436508326391111"];  
-global.Ownerrr = ["+491741711168","+436508326391111"];      
+global.Owner = ["491741711168","491626584772"];  
+global.Ownerblock = ["491741711168","491626584772"];  
+global.Ownerrr = ["+491741711168","+491626584772"];      
 global.botNumberr = ["491741711168"];  
-global.OwnerNumber = ["4917411168","436508326391111"]; 
-global.sup = [ "491741711168","436508326391111"];   //If you want singal number so global.Owner = ['4365022989060'] Change into your number.
+global.OwnerNumber = ["4917411168","491626584772"]; 
+global.sup = [ "491741711168","491626584772"];   //If you want singal number so global.Owner = ['4365022989060'] Change into your number.
 global.ownertag = ["491741711168"];
 global.OwnerName = "¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿";
 global.BotName = "Bot by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿";
 global.packname = "Bot by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿";                             //Do not change. 
 global.author = "ig: exiqon.49";                               //Do not change.
 global.BotSourceCode = "https://github.com/Exiqonbotz"; //Do not change.
-global.SupportGroupLink = "https://chat.whatsapp.com/GXJA9IomUhaHyofAT4PlJQ";
-global.link = "https://chat.whatsapp.com/DqHmefp0wAK10AHVKh7lXt"
+//global.SupportGroupLink = "https://chat.whatsapp.com/GXJA9IomUhaHyofAT4PlJQ";
+//global.link = "https://chat.whatsapp.com/DqHmefp0wAK10AHVKh7lXt"
 global.antispam = true
 //
-global.sessionName = 'session'                          //Do not change.
-global.sessionName2 = 'session_jannek'   
-global.sessionName3 = 'session_baron'  
+
 
 //
 global.openAiAPI = "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";
@@ -51,12 +49,12 @@ global.location = "Deutschland, Unknown";
 global.reactmoji = "💞";
 global.themeemoji = "😂";
 global.vidmenu = { url: 'https://tenor.com/en-CA/view/anonymous-hacker-smooth-gif-10171911193797826570%9D%90%95-12-14' };
-global.websitex = "https://github.com/7ucg/Phoenix-MD";
+global.websitex = "https://github.com/Exiqonbotz";
 global.lolhuman = "Bot by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿";
 
 
 //
-global.BotLogo = fs.readFileSync("./Assets/nuke-pic.jpg");
+global.BotLogo = fs.readFileSync("./Assets/bot-logo.jpg");
 global.Thumb = fs.readFileSync("./Assets/nuke-pic.jpg");
 global.Thumb1 = fs.readFileSync("./Assets/nuke-pic.jpg");
 global.ErrorPic = fs.readFileSync("./Assets/nuke-pic.jpg");
@@ -217,4 +215,7 @@ fs.watchFile(file, () => {
   delete require.cache[file]
   require(file)
 })
-global.sessionName4 = './sess/sessionName4_Hadex'
+
+global.sessionName = 'session'                          //Do not change.
+global.sessionName1 = './sess/sessionName1_Private'
+global.sessionName2 = './sess/sessionName2_Hadex'
