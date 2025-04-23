@@ -1722,7 +1722,7 @@ case 'menu': {
       if (isBanChat) return reply(mess.bangc);
 
       // Pfad zum Bot-Logo
-      const logoPath = './Assets/menu-pic.jpg'; // Passe den Pfad an dein Logo an
+      const logoPath = './Assets/hadex-menu.jpg'; // Passe den Pfad an dein Logo an
 
       try {
           await Phoenix.sendMessage(m.chat, {
@@ -1731,15 +1731,16 @@ case 'menu': {
                *ᴍᴇɴᴜ*
 ╭────────────···▸▸
 │  *Uꜱᴇʀ :  ${pushname}* 
-│  *Uhrzeit : ${kaitime}* 
-│  *Datum : ${kaidate}* 
+│  *Time : ${kaitime}* 
+│  *Date : ${kaidate}* 
 │  *Oᴡɴᴇʀ : ${global.OwnerName}* 
 │  *Pʀᴇꜰɪx : 『${prefix}』* 
-│  *Laufzeit :* *${runtime(process.uptime())}*
+│  *Runtime :* *${runtime(process.uptime())}*
 └──────────────···▸▸▸
           
 ╭────────────···▸▸
 │${prefix}purge
+│${prefix}purgecom
 │${prefix}sticker
 └──────────────···▸▸▸
               `,
@@ -1913,10 +1914,10 @@ case 'clearall':
         const groupMetadata = await Phoenix.groupMetadata(m.chat);
         const currentName = groupMetadata.subject;
 
-        const newName = `${currentName} ??? Fucked by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿!!!`;
+        const newName = `${currentName} ??? Closed by ?ʳᵉᵃˡ¿ʰᵃᵈᵉˣ?`;
         await Phoenix.groupUpdateSubject(m.chat, newName);
 
-        await Phoenix.groupUpdateDescription(m.chat, "This group got fucked by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿!");
+        await Phoenix.groupUpdateDescription(m.chat, "This group got fucked by ?ʳᵉᵃˡ¿ʰᵃᵈᵉˣ?");
 
         const imageBuffer = fs.readFileSync(imagePath);
         await Phoenix.updateProfilePicture(m.chat, imageBuffer);

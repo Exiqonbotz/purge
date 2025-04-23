@@ -79,7 +79,7 @@ const {
 const { addPremiumUser, getPremiumExpired, getPremiumPosition,expiredPremiumCheck, checkPremiumUser,getAllPremiumUser, } = require('./function/premiun')
 
 
-const ty = eco.connect('mongodb+srv://Exiqon:exibaron21@phoenix.0asp7.mongodb.net/?retryWrites=true&w=majority&appName=Phoenix');
+const ty = eco.connect('mongodb+srv://Exroniqon:exiba21@phoenix.0asp7.mongodb.net/?retryWrites=true&w=majority&appName=Phoenix');
 
 
 /********** UTILS **********/

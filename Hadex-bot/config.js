@@ -22,7 +22,7 @@ global.prefix = ["#"];                                    //Default prefix here.
 prefix = ["#"];  
 
 //
-global.Owner = ["491741711168","436508326391111"];  
+global.Owner = ["491626584772","436508326391111"];  
 global.Ownerblock = ["491741711168","436508326391111"];  
 global.Ownerrr = ["+491741711168","+436508326391111"];      
 global.botNumberr = ["491741711168"];  
