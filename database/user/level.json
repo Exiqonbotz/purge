@@ -1,7 +1,7 @@
 {
     "491741711168@s.whatsapp.net": {
-        "exp": 13,
-        "level": 13,
+        "exp": 546,
+        "level": 14,
         "role": "Warrior II"
     },
     "491626584772@s.whatsapp.net": {
@@ -85,7 +85,7 @@
         "role": "Warrior V"
     },
     "18292740689@s.whatsapp.net": {
-        "exp": 49,
+        "exp": 134,
         "level": 1,
         "role": "Warrior V"
     },
@@ -375,7 +375,7 @@
         "role": "Warrior V"
     },
     "48574569811@s.whatsapp.net": {
-        "exp": 62,
+        "exp": 74,
         "level": 1,
         "role": "Warrior V"
     },
@@ -440,12 +440,22 @@
         "role": "Warrior V"
     },
     "27842521963@s.whatsapp.net": {
-        "exp": 136,
+        "exp": 193,
         "level": 1,
         "role": "Warrior V"
     },
     "4915679400167@s.whatsapp.net": {
-        "exp": 20,
+        "exp": 164,
+        "level": 1,
+        "role": "Warrior V"
+    },
+    "4915151303640@s.whatsapp.net": {
+        "exp": 70,
+        "level": 1,
+        "role": "Warrior V"
+    },
+    "6283183568956@s.whatsapp.net": {
+        "exp": 119,
         "level": 1,
         "role": "Warrior V"
     }

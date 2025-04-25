@@ -1723,7 +1723,7 @@ case 'menu': {
       if (isBanChat) return reply(mess.bangc);
 
       // Pfad zum Bot-Logo
-      const logoPath = './Assets/hadex-menuc.jpg'; // Passe den Pfad an dein Logo an
+      const logoPath = './Assets/hadex-menu.jpg'; // Passe den Pfad an dein Logo an
 
       try {
           await Phoenix.sendMessage(m.chat, {

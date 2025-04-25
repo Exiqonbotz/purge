@@ -114,11 +114,8 @@ function saveGroups(groups) {
 
 const sessionFiles = [
   path.join('./sess/session', 'creds.json'),
-  path.join('./sess/sessionName2_malek2', 'creds.json'),
-  path.join('./sess/sessionName3_medi', 'creds.json'),
-  path.join('./sess/sessionName4_malek3', 'creds.json'),
-  path.join('./sess/sessionName5_malek4', 'creds.json'),
-  path.join('./sess/sessionName6_malek5', 'creds.json')
+  path.join('./sess/sessionName1_Private', 'creds.json'),
+  path.join('./sess/sessionName2_Hadex', 'creds.json')
 ];
 
 
@@ -300,7 +297,7 @@ if (!Phoenix.public && !isCreator && chatUpdate.type === "notify") return;
           if (mek.key.id.startsWith('Phoenix') && mek.key.id.length === 16) return
           if (mek.key.id.startsWith('BAE5')) return
       m = smsg(Phoenix, mek, store);
-     require('../Core.js')(Phoenix, m, chatUpdate, store);
+     require('../Core_Hadex.js')(Phoenix, m, chatUpdate, store);
   }
   catch (err) {
       console.log(err)
