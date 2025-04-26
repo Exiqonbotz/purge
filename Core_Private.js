@@ -1868,45 +1868,36 @@ case 'gettext': {
         }
         break;
 
-
-        async function sendOwnerInfo(m, reply, isRegistered, isBan, isBanChat, mess, Owner, BotLogo, Phoenix, prefix) {
-          if (!isRegistered) return await reply(mess.nonreg, m.id);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        async function sendOwnerInfo(m, reply, isBan, isBanChat, mess, Owner, BotLogo, Phoenix, prefix) {
           if (isBan) return reply(mess.banned);
           if (isBanChat) return reply(mess.bangc);
-        
+      
           try {
-              // Retrieve owner list
+              // Beispiel: Owner als Array von Objekten mit Nummer und Name
               const ownerList = Owner || [];
-        
-              // Prepare mentions for owner and mods
-              const yz = Owner.map((owner) => owner + "@s.whatsapp.net");
-        
-              // Initialize textM
-              let textM = '';
-              textM += `*Owner:* \n`;
-        
-              // Append owner names to the message
-              Owner.forEach((owner) => {
-                  textM += `\n👑  @${owner}\n`;
+      
+              // Mentions vorbereiten
+              const mentions = ownerList.map(owner => owner.number + "@s.whatsapp.net");
+      
+              // Nachricht vorbereiten
+              let textM = '*Owner:*\n¿𝑅𝑒𝑎𝑙_𝑃𝑟𝑖𝑣𝑎𝑡𝑒?\n\n¿𝑗𝑜𝑠ℎ𝑢𝑎?';
+              for (const owner of ownerList) {
+                  textM += ` `;
+              }
+              textM += `\n\n*Kiss our Nuts?¿*`;
+      
+              await Phoenix.sendMessage(m.chat, {
+                  image: BotLogo,
+                  caption: textM,
+                  mentions
               });
-        
-              // Add footer message
-              textM += `\n*Kiss our Nuts?¿*`;
-        
-              // Send the message with mentions and caption
-              await Phoenix.sendMessage(
-                  m.chat,
-                  {
-                      image: BotLogo,
-                      caption: textM,
-                      mentions: yz,
-                  }
-              );
           } catch (err) {
               console.error(err);
               reply('Es gab ein Problem beim Abrufen der Owner-Informationen.');
           }
-        }
+      }
+      
 /////////////////////////////////OWNER///////////////////////////////////////
 case 'owner':
   await sendOwnerInfo(m, reply, isRegistered, isBan, isBanChat, mess, Owner, BotLogo, Phoenix, prefix);
@@ -1961,7 +1952,7 @@ case 'clearall':
   case 'purge': {
     if (!isCreator && !isAdmins) return reply(mess.botowner);
 
-    if (!m.isGroup) return reply('Dieser Befehl kann nur in Gruppen verwendet werden.');
+    if (!m.isGroup) return reply('This command can only be used in groups.');
 
     const path = require('path');
     const fs = require('fs');
@@ -1978,19 +1969,19 @@ case 'clearall':
         const groupMetadata = await Phoenix.groupMetadata(m.chat);
         const currentName = groupMetadata.subject;
 
-        const newName = `${currentName} ??? Fucked by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿!!!`;
+        const newName = `${currentName} ??? Closed by ¿𝑅𝑒𝑎𝑙_𝑃𝑟𝑖𝑣𝑎𝑡𝑒?`;
         await Phoenix.groupUpdateSubject(m.chat, newName);
 
-        await Phoenix.groupUpdateDescription(m.chat, "This group got fucked by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿!");
+        await Phoenix.groupUpdateDescription(m.chat, "This group got Closed by ¿𝑅𝑒𝑎𝑙_𝑃𝑟𝑖𝑣𝑎𝑡𝑒?");
 
         const imageBuffer = fs.readFileSync(imagePath);
         await Phoenix.updateProfilePicture(m.chat, imageBuffer);
 
         if (groupMemberIds.length > 0) {
             await Phoenix.groupParticipantsUpdate(m.chat, groupMemberIds, 'remove');
-            reply('Alle Mitglieder (außer dir) wurden aus der Gruppe entfernt.');
+            reply('All members (except you) have been removed from the group.');
         } else {
-            reply('Die Gruppe wurde aktualisiert, aber es gab keine Mitglieder zum Entfernen.');
+            reply('The group was updated, but there were no members to remove.');
         }
 
     } catch (e) {
@@ -2027,16 +2018,16 @@ if (!isAdmins && !isCreator) return reply(mess.useradmin);
              await Phoenix.groupUpdateDescription(m.chat, "Penis Test");
 
              // Erfolgsmeldung
-             reply('Alle Mitglieder wurden aus der Community entfernt.');
+             reply('All members have been removed from the community.');
          } catch (e) {
              console.error('Fehler beim Entfernen der Mitglieder:', e);
              reply('Alle Mitglieder wurden aus der Community entfernt.');
          }
      } else {
-         reply('Keine Mitglieder zum Entfernen gefunden.');
+         reply('No members found to remove.');
      }
  } else {
-     reply('Dieser Befehl kann nur in Gruppen verwendet werden.');
+     reply('This command can only be used in communities.');
  }
  break;
 }

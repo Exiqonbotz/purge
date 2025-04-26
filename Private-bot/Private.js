@@ -297,7 +297,7 @@ if (!Phoenix.public && !isCreator && chatUpdate.type === "notify") return;
           if (mek.key.id.startsWith('Phoenix') && mek.key.id.length === 16) return
           if (mek.key.id.startsWith('BAE5')) return
       m = smsg(Phoenix, mek, store);
-     require('../Core.js')(Phoenix, m, chatUpdate, store);
+     require('../Core_Private.js')(Phoenix, m, chatUpdate, store);
   }
   catch (err) {
       console.log(err)
