@@ -29,9 +29,9 @@ global.botNumberr = ["491741711168"];
 global.OwnerNumber = ["4917411168","491626584772"]; 
 global.sup = [ "491741711168","491626584772"];   //If you want singal number so global.Owner = ['4365022989060'] Change into your number.
 global.ownertag = ["491741711168"];
-global.OwnerName = "¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿";
-global.BotName = "Bot by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿";
-global.packname = "Bot by ¿?𝐸𝑥ͥ𝑖𝑞ͣ𝑜ͫ𝑛?¿";                             //Do not change. 
+global.OwnerName = "¿𝑅𝑒𝑎𝑙_𝑃𝑟𝑖𝑣𝑎𝑡𝑒?";
+global.BotName = "Bot by ¿𝑅𝑒𝑎𝑙_𝑃𝑟𝑖𝑣𝑎𝑡𝑒?";
+global.packname = "Bot by ¿𝑅𝑒𝑎𝑙_𝑃𝑟𝑖𝑣𝑎𝑡𝑒?";                             //Do not change. 
 global.author = "ig: exiqon.49";                               //Do not change.
 global.BotSourceCode = "https://github.com/Exiqonbotz"; //Do not change.
 //global.SupportGroupLink = "https://chat.whatsapp.com/GXJA9IomUhaHyofAT4PlJQ";

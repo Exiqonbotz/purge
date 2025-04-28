@@ -2229,7 +2229,7 @@ break;
         if (isCmd) {
           if (isBan) return reply(mess.banned);
           if (isBanChat) return reply(mess.bangc);
-          m.reply(`Hallo. *${pushname}* Dieser Befehl existiert nicht. Verwende *${prefix}menu* um weitere Befehle zu sehen.`)
+          m.reply(`Hello. *${pushname}* This command does not exist. Use *${prefix}menu* to see more commands.`)
 
         }
 
