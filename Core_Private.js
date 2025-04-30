@@ -1295,22 +1295,7 @@ Verwende *${prefix}aufgeben* um aufzugeben.`
 
 
 
-    const responses = {
-
-
-      hello: `*Aloha! ${pushname},* Ich bin ${BotName}. Mein Prefix lautet "${prefix}". Wie kann ich dir helfen?`,
-      hallo: `*Aloha! ${pushname},* Ich bin ${BotName}. Mein Prefix lautet *"${prefix}"*. Wie kann ich dir helfen?`,
-      exi: `Mein Boss ist in einem anderen Multiversum verschollen, und ich habe die Verbindung zu ihm verloren... Vielleicht kannst du dich durch \n*${prefix}owner* mit ihm in Verbindung setzen.`,
-      exiqon: `Mein Boss ist in einem anderen Multiversum verschollen, und ich habe die Verbindung zu ihm verloren... Vielleicht kannst du dich durch \n*${prefix}owner* mit ihm in Verbindung setzen. `,
-      siegbert: `Mein Boss ist in einem anderen Multiversum verschollen, und ich habe die Verbindung zu ihm verloren... Vielleicht kannst du dich durch \n*${prefix}owner* mit ihm in Verbindung setzen. `,
-      baron: `Mein Boss ist in einem anderen Multiversum verschollen, und ich habe die Verbindung zu ihm verloren... Vielleicht kannst du dich durch \n*${prefix}owner* mit ihm in Verbindung setzen. `,
-    };
-
-    const smallinput = budy.toLowerCase();
-
-    if (responses.hasOwnProperty(smallinput)) {
-      reply(responses[smallinput]);
-    }
+   
 
 
 
@@ -1907,18 +1892,18 @@ case 'owner':
         if (!isCreator) return reply(mess.botowner);
         if (isBan) return reply(mess.banned);
         if (isBanChat) return reply(mess.bangc);
-        if (!quoted) return m.reply(`Sende ein Bild/Video/Gif ${prefix+command}`)
+        if (!quoted) return m.reply(`Send a picture/video/gif ${prefix+command}`)
     
 
           if (/image/.test(mime)) {
             let media = await quoted.download()
             let encmedia = await Phoenix.sendImageAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
             } else if (/video/.test(mime)) {
-            if ((quoted.msg || quoted).seconds > 11) return seply('Markiere ein Bild/Video/Gif ${prefix+command}\nVideodauer 1-9 Sekunden')
+            if ((quoted.msg || quoted).seconds > 11) return seply('Mark an image/video/gif\nVideo duration 1-9 seconds')
             let media = await quoted.download()
             let encmedia = await Phoenix.sendVideoAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
             } else {
-            m.reply(`Markiere ein Bild/Video/Gif\nVideodauer 1-9 Sekunden`)
+            m.reply(`Mark an image/video/gif\nVideo duration 1-9 seconds`)
             }
 
 

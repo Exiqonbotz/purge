@@ -1295,22 +1295,7 @@ Verwende *${prefix}aufgeben* um aufzugeben.`
 
 
 
-    const responses = {
-
-
-      hello: `*Aloha! ${pushname},* Ich bin ${BotName}. Mein Prefix lautet "${prefix}". Wie kann ich dir helfen?`,
-      hallo: `*Aloha! ${pushname},* Ich bin ${BotName}. Mein Prefix lautet *"${prefix}"*. Wie kann ich dir helfen?`,
-      exi: `Mein Boss ist in einem anderen Multiversum verschollen, und ich habe die Verbindung zu ihm verloren... Vielleicht kannst du dich durch \n*${prefix}owner* mit ihm in Verbindung setzen.`,
-      exiqon: `Mein Boss ist in einem anderen Multiversum verschollen, und ich habe die Verbindung zu ihm verloren... Vielleicht kannst du dich durch \n*${prefix}owner* mit ihm in Verbindung setzen. `,
-      siegbert: `Mein Boss ist in einem anderen Multiversum verschollen, und ich habe die Verbindung zu ihm verloren... Vielleicht kannst du dich durch \n*${prefix}owner* mit ihm in Verbindung setzen. `,
-      baron: `Mein Boss ist in einem anderen Multiversum verschollen, und ich habe die Verbindung zu ihm verloren... Vielleicht kannst du dich durch \n*${prefix}owner* mit ihm in Verbindung setzen. `,
-    };
-
-    const smallinput = budy.toLowerCase();
-
-    if (responses.hasOwnProperty(smallinput)) {
-      reply(responses[smallinput]);
-    }
+  
 
 
 
